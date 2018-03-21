@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="quizApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Amazing Quiz</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="title">Elastique Quiz</h1>
+    </div>
+    <div ng-controller="showCtrl as show" ng-hide="show.quizMetrics.quizActive || show.quizMetrics.resultsActive">
+        <div>
+            <form name="bestForm">
+                <label for="user">Enter your name: </label>
+                <input class="form-control" ng-model="show.quizMetrics.name" input="text" id="user" placeholder="Your name..." required>
+
+                <button class="btn btn-primary pull-right"
+                        ng-click="show.activateQuiz()" ng-disabled="bestForm.$invalid">
+                    <strong>Start Quiz</strong>
+                </button>
+            </form>
+        </div>
+    </div>
+    <div ng-controller="quizCtrl as quiz" ng-show="quiz.quizMetrics.quizActive" >
+        <div class="loader">
+            <h2 ng-bind="quiz.counter"></h2>
+        </div>
+        <h3 >Question:</h3>
+        <div class="well well-sm" ng-hide="quiz.finalise">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4>{{quiz.activeQuestion+1 + ". " + quiz.dataService.quizQuestions[quiz.activeQuestion].text}}</h4>
+                    <div class="row"
+                         ng-if="quiz.dataService.quizQuestions[quiz.activeQuestion].type === 'text'">
+                        <div class="col-sm-6" ng-repeat="answer in quiz.dataService.quizQuestions[quiz.activeQuestion].possibilities">
+                            <h4 class="answer"
+                                ng-class="{'bg-info': $index === quiz.dataService.quizQuestions[quiz.activeQuestion].selected}"
+                                ng-click="quiz.selectAnswer($index)">
+                                {{answer.answer}}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row"
+                         ng-if="quiz.dataService.quizQuestions[quiz.activeQuestion].type === 'image'">
+                        <div class="col-sm-6" ng-repeat="answer in quiz.dataService.quizQuestions[quiz.activeQuestion].possibilities">
+                            <div class="image-answer"
+                                 ng-class="{'image-selected': $index === quiz.dataService.quizQuestions[quiz.activeQuestion].selected}"
+                                 ng-click="quiz.selectAnswer($index)">
+                                <img ng-src="{{answer.answer}}">
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <button class="btn btn-primary" ng-click="quiz.questionAnswered()">Next <i class="fas fa-angle-right"></i></button>
+        </div>
+
+        <div class="well well-sm" ng-show="quiz.finalise">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 >Thank you for answering {{quiz.quizMetrics.name}}!</h3>
+                    <button class="btn btn-success" ng-click="quiz.finaliseAnswers()">Show results</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div ng-controller="resultsCtrl as results" ng-show="results.quizMetrics.resultsActive">
+    <div class="container align-items-center results">
+        <h3>Results:</h3>
+        <div>
+            <h1>{{results.quizMetrics.name}}</h1>
+        <h2><i class="fas fa-check-circle"></i> You Scored {{results.quizMetrics.numCorrect}} / {{results.dataService.quizQuestions.length}}</h2>
+        <h2><strong>{{results.calculatePerc() | number:2}}%</strong></h2>
+            <div>
+            <button class="btn btn-primary" ng-click="results.reset()">Start again <i class="fas fa-sync-alt"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="lib/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="js/app.js"></script>
+<script src="js/controllers/show.js"></script>
+<script src="js/controllers/quiz.js"></script>
+<script src="js/controllers/results.js"></script>
+<script src="js/metrics.js"></script>
+<script src="js/questions.js"></script>
+
+</body>
+</html>

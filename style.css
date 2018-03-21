@@ -1,0 +1,61 @@
+.form-control{
+    width: 25%;
+}
+.answer{
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+}
+.answer:hover{
+    cursor: pointer;
+}
+.image-answer{
+    cursor: pointer;
+    height: 350px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.image-answer img{
+    width: 100%;
+    height: 100%;
+}
+.image-selected{
+    border: 3px solid #56afdc;
+}
+.title{
+    margin-top: 30px;
+    height: 40px;
+    padding: 20px;
+    text-align: center;
+}
+h3 {
+    padding: 15px;
+}
+h2 {
+    text-align: center;
+}
+body {
+    background: url(img/topography.png) repeat 0 0;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Poppins', sans-serif;
+}
+.results {
+    text-align: center;
+}
+.loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    align-content: center;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
